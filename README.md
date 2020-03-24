@@ -8,7 +8,7 @@ It has been designed to be used with XCTest and written in Swift.
 Built-in XCTest assertions are great for many cases when you automate user interface testing. 
 But some cases require testing appearance because `XCUIElement` properties do not fully describe the interface. 
 SUITCase verifies screenshots to automate testing formatting texts, displaying images, switching themes, and much more. 
-
+SUITCase currently supports recording and testing apps in Simulator only. 
 
 ## Installation
 SUITCase is easy to install with the [Swift Package Manager.](https://developer.apple.com/documentation/swift_packages) 
@@ -92,6 +92,7 @@ verifyScreenshot(withThreshold: 0.03)
 The reference image will be cropped by this element frame.
 * You shoud **erase dynamic element** by using `withoutElement` argument.
 * The `withoutQuery` argument allows you to **erase multiple elements** at once. 
+* The erased elements are transparent on the reference images, and SUITCase compares only opaque pixels.  
 ```swift
 verifyScreenshot(ofElement: app.buttons["New"])
 verifyScreenshot(withoutElement: app.tabBars.element)
