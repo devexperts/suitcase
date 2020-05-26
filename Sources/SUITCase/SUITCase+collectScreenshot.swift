@@ -47,15 +47,7 @@ extension SUITCase {
                 }
             }
 
-            // Resize the image, dismiss orientation
-            switch method {
-            case .strict:
-                actualImage = actualImage.resized(by: 1)
-            case .dna(_, let scaleFactor):
-                actualImage = actualImage.dna(scaleFactor: CGFloat(scaleFactor))
-            default:
-                actualImage = actualImage.resized(by: 1 / actualImage.scale)
-            }
+            actualImage = downscaleScreenshot(actualImage, withMethod: method)
         }
         addImage(actualImage, name: "Collected image")
 
