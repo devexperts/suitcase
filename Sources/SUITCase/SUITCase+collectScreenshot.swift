@@ -13,7 +13,7 @@ extension SUITCase {
     func collectScreenshot(ofElement element: XCUIElement? = nil,
                            withoutElement ignoredElement: XCUIElement? = nil,
                            withoutQuery ignoredQuery: XCUIElementQuery? = nil,
-                           withMethod method: ScreenshotComparisonMethod = .withTolerance()) throws -> UIImage {
+                           withMethod method: SUITCaseMethod = SUITCaseMethodWithTolerance()) throws -> UIImage {
         var actualImage = UIImage()
 
         try XCTContext.runActivity(named: "Take a screenshot") { _ in
@@ -47,7 +47,7 @@ extension SUITCase {
                 }
             }
 
-            actualImage = downscaleScreenshot(actualImage, withMethod: method)
+            actualImage = method.prepareScreenshot(actualImage)
         }
         addImage(actualImage, name: "Collected image")
 

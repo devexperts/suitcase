@@ -10,20 +10,6 @@ import XCTest
 
 @available(iOS 12.0, *)
 extension SUITCase {
-    /// The enumeration of possible screenshot comparison methods.
-    public enum ScreenshotComparisonMethod: Equatable {
-        /// The most accurate method, which compares original screenshots pixel by pixel.
-        case strict
-        /// Downscales screenshots and allows configurable tolerance while comparing pixels.
-        case withTolerance(tolerance: Double = 0.1)
-        /// Downscales screenshots, removes color saturation, and allows configurable tolerance while comparing pixels.
-        case greyscale(tolerance: Double = 0.1)
-        /// Extremely dowscales screenshots, and allows configurable tolerance while comparing pixels.
-        case dna(tolerance: Double = 0.1, scaleFactor: Double = 0.03)
-        /// Compares average colors of screenshots.
-        case averageColor
-    }
-
     enum VerifyScreenshotError: LocalizedError {
         case notSimulator
         case offScreenElement(element: XCUIElement)
@@ -76,7 +62,7 @@ extension SUITCase {
                                  withoutElement ignoredElement: XCUIElement? = nil,
                                  withoutQuery ignoredQuery: XCUIElementQuery? = nil,
                                  withThreshold customThreshold: Double? = nil,
-                                 withMethod method: ScreenshotComparisonMethod = .withTolerance(),
+                                 withMethod method: SUITCaseMethod = SUITCaseMethodWithTolerance(),
                                  withLabel label: String? = nil,
                                  file: StaticString = #file,
                                  line: UInt = #line) {
@@ -112,7 +98,7 @@ extension SUITCase {
                                   withoutElement ignoredElement: XCUIElement? = nil,
                                   withoutQuery ignoredQuery: XCUIElementQuery? = nil,
                                   withThreshold customThreshold: Double? = nil,
-                                  withMethod method: ScreenshotComparisonMethod = .withTolerance(),
+                                  withMethod method: SUITCaseMethod = SUITCaseMethodWithTolerance(),
                                   withLabel label: String? = nil) throws {
         guard UIDevice.isSimulator else {
             throw VerifyScreenshotError.notSimulator
@@ -144,9 +130,8 @@ extension SUITCase {
             throw VerifyScreenshotError.noReference
         }
 
-        let difference = try compareImages(withMethod: method,
-                                           actual: RGBAImage(uiImage: actualImage),
-                                           reference: RGBAImage(uiImage: referenceImage))
+        let difference = try method.compareImages(actual: RGBAImage(uiImage: actualImage),
+                                                  reference: RGBAImage(uiImage: referenceImage))
 
         addNote("Threshold  = \(String(format: "%.4f", threshold))")
         addNote("Difference = \(String(format: "%.4f", difference.value))")

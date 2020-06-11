@@ -11,16 +11,15 @@ import XCTest
 
 @available(iOS 12.0, *)
 class CompareImagesTests: XCTestCase {
-    func assertComparison(method: SUITCase.ScreenshotComparisonMethod,
+    func assertComparison(method: SUITCaseMethod,
                           _ image1: RGBAImage,
                           _ image2: RGBAImage,
                           expectedDifference: (image: RGBAImage, value: Double),
                           file: StaticString = #file,
                           line: UInt = #line) {
         do {
-            let actualDifference = try SUITCase().compareImages(withMethod: method,
-                                                                actual: image1,
-                                                                reference: image2)
+            let actualDifference = try method.compareImages(actual: image1,
+                                                            reference: image2)
             XCTAssertEqual(actualDifference.image,
                            expectedDifference.image,
                            file: file,
@@ -35,15 +34,14 @@ class CompareImagesTests: XCTestCase {
         }
     }
 
-    func assertComparisonError(method: SUITCase.ScreenshotComparisonMethod,
+    func assertComparisonError(method: SUITCaseMethod,
                                _ image1: RGBAImage,
                                _ image2: RGBAImage,
                                _ expectedError: Error,
                                file: StaticString = #file,
                                line: UInt = #line) {
-        XCTAssertThrowsError(try SUITCase().compareImages(withMethod: method,
-                                                          actual: image1,
-                                                          reference: image2),
+        XCTAssertThrowsError(try method.compareImages(actual: image1,
+                                                      reference: image2),
                              file: file,
                              line: line) { error in
             do {
@@ -79,7 +77,7 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testStrictComparison() {
-        assertComparison(method: .strict,
+        assertComparison(method: SUITCaseMethodStrict(),
                          rgbaImage,
                          lighterImage,
                          expectedDifference: (RGBAImage(pixels: [.black, .black, .black, .black,
@@ -91,7 +89,7 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testWithToleranceComparison() {
-        assertComparison(method: .withTolerance(tolerance: 0.05),
+        assertComparison(method: SUITCaseMethodWithTolerance(0.05),
                          rgbaImage,
                          lighterImage,
                          expectedDifference: (RGBAImage(pixels: [.black, .black, .white, .white,
@@ -100,7 +98,7 @@ class CompareImagesTests: XCTestCase {
                                                         width: 4,
                                                         height: 3),
                                               6 / 11))
-        assertComparison(method: .withTolerance(tolerance: 0.06),
+        assertComparison(method: SUITCaseMethodWithTolerance(0.06),
                          rgbaImage,
                          lighterImage,
                          expectedDifference: (RGBAImage(pixels: [.black, .white, .white, .white,
@@ -122,7 +120,7 @@ class CompareImagesTests: XCTestCase {
                               height: 2)
 
     func testGreyscaleComparison() {
-        assertComparison(method: .greyscale(tolerance: 0.1),
+        assertComparison(method: SUITCaseMethodGreyscale(tolerance: 0.1),
                          rgbwImage,
                          cmykImage,
                          expectedDifference: (RGBAImage(pixels: [.white, .white,
@@ -130,7 +128,7 @@ class CompareImagesTests: XCTestCase {
                                                         width: 2,
                                                         height: 2),
                                               1 / 4))
-        assertComparison(method: .greyscale(tolerance: 0.3),
+        assertComparison(method: SUITCaseMethodGreyscale(tolerance: 0.3),
                          rgbwImage,
                          cmykImage,
                          expectedDifference: (RGBAImage(pixels: [.white, .white,
@@ -143,7 +141,7 @@ class CompareImagesTests: XCTestCase {
     func testAverageColorComparison() {
         let width = 100
 
-        assertComparison(method: .averageColor,
+        assertComparison(method: SUITCaseMethodAverageColor(),
                          rgbaImage,
                          lighterImage,
                          expectedDifference: (RGBAImage(pixels: Array(repeating: RGBAPixel.gray,
@@ -153,7 +151,7 @@ class CompareImagesTests: XCTestCase {
                                                         width: width,
                                                         height: 2 * width),
                                               0.039216))
-        assertComparison(method: .averageColor,
+        assertComparison(method: SUITCaseMethodAverageColor(),
                          rgbwImage,
                          cmykImage,
                          expectedDifference: (RGBAImage(pixels: Array(repeating: RGBAPixel.gray,
@@ -164,7 +162,7 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testDnaComparison() {
-        assertComparison(method: .dna(tolerance: 0.03),
+        assertComparison(method: SUITCaseMethodDNA(tolerance: 0.03),
                          rgbaImage,
                          lighterImage,
                          expectedDifference: (RGBAImage(pixels: [.black, .black, .black, .white,
@@ -173,7 +171,7 @@ class CompareImagesTests: XCTestCase {
                                                         width: 4,
                                                         height: 3),
                                               8 / 11))
-        assertComparison(method: .dna(tolerance: 0.02),
+        assertComparison(method: SUITCaseMethodDNA(tolerance: 0.02),
                          rgbaImage,
                          lighterImage,
                          expectedDifference: (RGBAImage(pixels: [.black, .black, .black, .black,
@@ -193,16 +191,16 @@ class CompareImagesTests: XCTestCase {
                                                        .magenta, .clear],
                                               width: 2,
                                               height: 2)
-        assertComparisonError(method: .strict,
+        assertComparisonError(method: SUITCaseMethodStrict(),
                               leftTransparentImage,
                               rightTransparentImage,
                               SUITCase.VerifyScreenshotError.nothingCommon)
-        assertComparisonError(method: .greyscale(tolerance: 0.01),
+        assertComparisonError(method: SUITCaseMethodGreyscale(tolerance: 0.01),
                               leftTransparentImage,
                               rgbaImage,
                               SUITCase.VerifyScreenshotError.unexpectedSize)
         let fullyTransparentImage = RGBAImage(pixel: .clear, width: 5, height: 6)
-        assertComparisonError(method: .averageColor,
+        assertComparisonError(method: SUITCaseMethodAverageColor(),
                               fullyTransparentImage,
                               rightTransparentImage,
                               SUITCase.VerifyScreenshotError.nothingCommon)

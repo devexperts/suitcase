@@ -9,7 +9,7 @@
 import XCTest
 
 /// A structure describing image built with RGBA pixels.
-struct RGBAImage: Equatable {
+public struct RGBAImage: Equatable {
     var pixels: [RGBAPixel]
     var width: Int
     var height: Int

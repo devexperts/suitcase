@@ -104,20 +104,20 @@ verifyScreenshot(withoutQuery: app.images.matching(identifier: "GIF"))
 * SUITCase includes five different comparison methods. 
 Each method will attach the collected image, difference value, and current threshold. 
 If difference is greater than zero, the reference and difference images will be attached as well. 
-* You can pass the method with the  `method` argument:  `verifyScreenshot(method: .strict])`
-* `.strict` \
+* You can pass the method with the  `withMethod` argument:  `verifyScreenshot(method: SUITCaseMethodStrict()])`
+* `SUITCaseMethodStrict()` \
 The most accurate method, which compares original screenshots pixel by pixel.
 ![Strict](Docs/strict.png)
-* `.withTolerance(tolerance: Double = 0.1)` \
+* `SUITCaseMethodWithTolerance(_: Double = 0.1)` \
 The default method downscales screenshots and allows configurable tolerance while comparing pixels.
 ![withTolerance](Docs/withTolerance.png)
-*  `.greyscale(tolerance: Double = 0.1)` \
+* `SUITCaseMethodGreyscaleColor(tolerance: Double = 0.1)` \
 Downscales screenshots, removes color saturation, and allows configurable tolerance while comparing pixels.
 ![Greyscale](Docs/greyscale.png)
-* `.dna(tolerance: Double = 0.1, scaleFactor: Double = 0.03)` \
+* `SUITCaseMethodDNA(tolerance: Double = 0.1, scaleFactor: Double = 0.03)` \
 Extremely dowscales screenshots, and allows configurable tolerance while comparing pixels. Inspired by [the PhotoDNA.](https://www.microsoft.com/en-us/photodna)
 ![DNA](Docs/dna.png)
-* `.averageColor` \
+* `SUITCaseMethodAverageColor()` \
 Compares the average colors of screenshots.
 ![Average color](Docs/averageColor.png)
 
