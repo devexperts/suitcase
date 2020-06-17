@@ -99,7 +99,7 @@ class RGBAPixelTests: XCTestCase {
     func testSquaredDistance() {
         XCTAssertEqual(white.squaredDistance(to: black), 1)
         XCTAssertEqual(yellow.squaredDistance(to: banana),
-                       0.050140,
+                       0.050042,
                        accuracy: 1e-6)
         for pixel in [systemGray, labelColor, carnation, cyan] {
             XCTAssertEqual(pixel.squaredDistance(to: pixel), 0)

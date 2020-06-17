@@ -75,11 +75,11 @@ struct RGBAPixel: Equatable, Hashable {
 
             let (deltaR, deltaG, deltaB) = (r1 - r2, g1 - g2, b1 - b2)
 
-            let sumR = r1 + r2
+            let meanR = (r1 + r2) / 510
 
-            let weightedR = deltaR * deltaR * (2 + sumR / 512)
+            let weightedR = deltaR * deltaR * (2 + meanR)
             let weightedG = deltaG * deltaG * 4
-            let weightedB = deltaB * deltaB * (2 + (512 - sumR) / 512)
+            let weightedB = deltaB * deltaB * (3 - meanR)
 
             let weightedSum = weightedR + weightedG + weightedB
             let normalisedSum = weightedSum / 585225 // 9 * 255 * 255
