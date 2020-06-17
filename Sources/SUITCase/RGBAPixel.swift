@@ -36,6 +36,19 @@ struct RGBAPixel: Equatable, Hashable {
         self.alpha = alpha
     }
 
+    init(uiColor: UIColor) {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+
+        self.red = UInt8(cgFloat: red)
+        self.green = UInt8(cgFloat: green)
+        self.blue = UInt8(cgFloat: blue)
+        self.alpha = UInt8(cgFloat: alpha)
+    }
+
     var isOpaque: Bool { alpha == 255 }
 
     /// The light intensity
@@ -106,6 +119,10 @@ struct RGBAPixel: Equatable, Hashable {
 }
 
 fileprivate extension UInt8 {
+    init(cgFloat: CGFloat) {
+        self = UInt8(round(Double(cgFloat) * 255))
+    }
+
     var gammaExpanded: Double {
         if self < 11 {
             return Double(self) / 3294.6

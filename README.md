@@ -120,6 +120,8 @@ Extremely dowscales screenshots, and allows configurable tolerance while compari
 * `SUITCaseMethodAverageColor()` \
 Compares the average colors of screenshots.
 ![Average color](Docs/averageColor.png)
+You can also verify the average color without the reference screenshot by using  `averageColorIs(_ uiColor: UIColor, tolerance: Double = 0.1)`
+`XCTAssert(app.buttons["Red Button"].averageColorIs(.red))`
 
 ## License 
 SUITCase is the open-source software under [the MPL 2.0 license.](LICENSE)
