@@ -130,8 +130,8 @@ extension SUITCase {
             throw VerifyScreenshotError.noReference
         }
 
-        let difference = try method.compareImages(actual: RGBAImage(uiImage: actualImage),
-                                                  reference: RGBAImage(uiImage: referenceImage))
+        let difference = try method.compareImages(actual: actualImage,
+                                                  reference: referenceImage)
 
         addNote("Threshold  = \(String(format: "%.4f", threshold))")
         addNote("Difference = \(String(format: "%.4f", difference.value))")

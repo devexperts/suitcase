@@ -18,8 +18,8 @@ class CompareImagesTests: XCTestCase {
                           file: StaticString = #file,
                           line: UInt = #line) {
         do {
-            let actualDifference = try method.compareImages(actual: image1,
-                                                            reference: image2)
+            let actualDifference = try method.compareImages(actual: image1.uiImage,
+                                                            reference: image2.uiImage)
             XCTAssertEqual(actualDifference.image,
                            expectedDifference.image,
                            file: file,
@@ -40,8 +40,8 @@ class CompareImagesTests: XCTestCase {
                                _ expectedError: Error,
                                file: StaticString = #file,
                                line: UInt = #line) {
-        XCTAssertThrowsError(try method.compareImages(actual: image1,
-                                                      reference: image2),
+        XCTAssertThrowsError(try method.compareImages(actual: image1.uiImage,
+                                                      reference: image2.uiImage),
                              file: file,
                              line: line) { error in
             do {

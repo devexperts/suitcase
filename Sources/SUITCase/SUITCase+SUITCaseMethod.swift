@@ -13,34 +13,39 @@ public protocol SUITCaseMethod {
     // Resizes the image, dismisses its orientation
     func prepareScreenshot(_ image: UIImage) -> UIImage
     // Compare images and return difference
-    func compareImages(actual: RGBAImage, reference: RGBAImage) throws -> (value: Double, image: RGBAImage)
+    func compareImages(actual: UIImage, reference: UIImage) throws -> (value: Double, image: RGBAImage)
 }
 
 @available(iOS 12.0, *)
-/// The most accurate method, which compares original screenshots pixel by pixel.
-public class SUITCaseMethodStrict: SUITCaseMethod {
+/// Downscales screenshots and allows configurable tolerance while comparing pixels.
+public class SUITCaseMethodWithTolerance: SUITCaseMethod {
+    var tolerance: Double
+
     public func prepareScreenshot(_ image: UIImage) -> UIImage {
-        return image.resized(by: 1)
+        return image.resized(by: 1 / image.scale)
     }
 
     func equalityCondition(_ pixel1: RGBAPixel, _ pixel2: RGBAPixel) -> Bool {
-        return pixel1 == pixel2
+        return pixel1.squaredDistance(to: pixel2) <= tolerance * tolerance
     }
 
-    public func compareImages(actual: RGBAImage,
-                              reference: RGBAImage) throws -> (value: Double, image: RGBAImage) {
+    public func compareImages(actual: UIImage,
+                              reference: UIImage) throws -> (value: Double, image: RGBAImage) {
+        let actualRGBAImage = RGBAImage(uiImage: actual)
+        let referenceRGBAImage = RGBAImage(uiImage: reference)
+
         var opaquePixelsCount = 0
         var incorrectPixelsCount = 0
         var pixelsCounter = 0
         var differenceImage = RGBAImage(pixel: DiffImageColors.fillColor,
-                                        width: actual.width,
-                                        height: actual.height)
+                                        width: actualRGBAImage.width,
+                                        height: actualRGBAImage.height)
 
-        guard (actual.width, actual.height) == (reference.width, reference.height) else {
+        guard (actualRGBAImage.width, actualRGBAImage.height) == (referenceRGBAImage.width, referenceRGBAImage.height) else {
             throw SUITCase.VerifyScreenshotError.unexpectedSize
         }
 
-        for (actualPixel, expectedPixel) in zip(actual.pixels, reference.pixels) {
+        for (actualPixel, expectedPixel) in zip(actualRGBAImage.pixels, referenceRGBAImage.pixels) {
             if actualPixel.isOpaque, expectedPixel.isOpaque {
                 opaquePixelsCount += 1
                 if !equalityCondition(actualPixel, expectedPixel) {
@@ -68,49 +73,40 @@ public class SUITCaseMethodStrict: SUITCaseMethod {
         static var tintColor    = RGBAPixel.black
     }
 
-    public init() { }
-}
-
-@available(iOS 12.0, *)
-/// Downscales screenshots and allows configurable tolerance while comparing pixels.
-public class SUITCaseMethodWithTolerance: SUITCaseMethodStrict {
-    var tolerance: Double
-
-    public override func prepareScreenshot(_ image: UIImage) -> UIImage {
-        return image.resized(by: 1 / image.scale)
-    }
-
-    override func equalityCondition(_ pixel1: RGBAPixel, _ pixel2: RGBAPixel) -> Bool {
-        return pixel1.squaredDistance(to: pixel2) <= tolerance * tolerance
-    }
-
     public init(_ tolerance: Double = 0.1) {
         self.tolerance = tolerance
     }
 }
 
 @available(iOS 12.0, *)
-/// Downscales screenshots, removes color saturation, and allows configurable tolerance while comparing pixels.
-public class SUITCaseMethodGreyscale: SUITCaseMethodStrict {
-    var tolerance: Double
-
+/// The most accurate method, which compares original screenshots pixel by pixel.
+public class SUITCaseMethodStrict: SUITCaseMethodWithTolerance {
     public override func prepareScreenshot(_ image: UIImage) -> UIImage {
-        return image.resized(by: 1 / image.scale)
+        return image.resized(by: 1)
     }
 
+    override func equalityCondition(_ pixel1: RGBAPixel, _ pixel2: RGBAPixel) -> Bool {
+        return pixel1 == pixel2
+    }
+
+    public init() { }
+}
+
+@available(iOS 12.0, *)
+/// Downscales screenshots, removes color saturation, and allows configurable tolerance while comparing pixels.
+public class SUITCaseMethodGreyscale: SUITCaseMethodWithTolerance {
     override func equalityCondition(_ pixel1: RGBAPixel, _ pixel2: RGBAPixel) -> Bool {
         return pixel1.intensityDistance(to: pixel2) <= tolerance
     }
 
     public init(tolerance: Double = 0.1) {
-        self.tolerance = tolerance
+        super.init(tolerance)
     }
 }
 
 @available(iOS 12.0, *)
 /// Extremely dowscales screenshots, and allows configurable tolerance while comparing pixels.
-public class SUITCaseMethodDNA: SUITCaseMethodStrict {
-    var tolerance: Double
+public class SUITCaseMethodDNA: SUITCaseMethodWithTolerance {
     var scaleFactor: CGFloat
 
     public override func prepareScreenshot(_ image: UIImage) -> UIImage {
@@ -122,8 +118,8 @@ public class SUITCaseMethodDNA: SUITCaseMethodStrict {
     }
 
     public init(tolerance: Double = 0.1, scaleFactor: CGFloat = 0.03) {
-        self.tolerance = tolerance
         self.scaleFactor = scaleFactor
+        super.init(tolerance)
     }
 }
 
@@ -134,9 +130,9 @@ public class SUITCaseMethodAverageColor: SUITCaseMethod {
         return image.resized(by: 1 / image.scale)
     }
 
-    public func compareImages(actual: RGBAImage, reference: RGBAImage) throws -> (value: Double, image: RGBAImage) {
-        guard let actualColor = actual.averageColor,
-            let expectedColor = reference.averageColor else {
+    public func compareImages(actual: UIImage, reference: UIImage) throws -> (value: Double, image: RGBAImage) {
+        guard let actualColor = RGBAImage(uiImage: actual).averageColor,
+            let expectedColor = RGBAImage(uiImage: reference).averageColor else {
                 throw SUITCase.VerifyScreenshotError.nothingCommon
         }
         let normalizedDifference = sqrt(actualColor.squaredDistance(to: expectedColor))
