@@ -20,10 +20,8 @@ class CompareImagesTests: XCTestCase {
         do {
             let actualDifference = try method.compareImages(actual: image1.uiImage,
                                                             reference: image2.uiImage)
-            XCTAssertEqual(actualDifference.image,
-                           expectedDifference.image,
-                           file: file,
-                           line: line)
+            
+            XCTAssertTrue(actualDifference.image == expectedDifference.image, file: file, line: line)
             XCTAssertEqual(actualDifference.value,
                            expectedDifference.value,
                            accuracy: 1e-6,
@@ -199,11 +197,6 @@ class CompareImagesTests: XCTestCase {
                               leftTransparentImage,
                               rgbaImage,
                               SUITCase.VerifyScreenshotError.unexpectedSize)
-        let fullyTransparentImage = RGBAImage(pixel: .clear, width: 5, height: 6)
-        assertComparisonError(method: SUITCaseMethodAverageColor(),
-                              fullyTransparentImage,
-                              rightTransparentImage,
-                              SUITCase.VerifyScreenshotError.nothingCommon)
     }
 
     static var allTests = [
