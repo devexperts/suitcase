@@ -110,6 +110,7 @@ The most accurate method, which compares original screenshots pixel by pixel.
 ![Strict](Docs/strict.png)
 * `SUITCaseMethodWithTolerance(_: Double = 0.1)` \
 The default method downscales screenshots and allows configurable tolerance while comparing pixels.
+[Read more about this method in our blog.](https://devexperts.com/blog/getting-to-the-bottom-of-the-rgb-pixels-part-1-color-difference/)
 ![withTolerance](Docs/withTolerance.png)
 * `SUITCaseMethodGreyscaleColor(tolerance: Double = 0.1)` \
 Downscales screenshots, removes color saturation, and allows configurable tolerance while comparing pixels.
