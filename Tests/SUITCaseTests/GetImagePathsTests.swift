@@ -55,8 +55,28 @@ class GetImagePathsTests: XCTestCase {
         }
     }
 
+    func testManualName() {
+        SUITCase.screenshotComparisonImagesFolder = "path/to/folder"
+        let suitcase = SUITCase()
+        suitcase.screenshotComparisonNamingStrategy = .manual
+
+        let expectedPaths = (
+            reference: "path/to/folder/Reference/imageName.png",
+            suggested: "path/to/folder/Suggested/imageName.png",
+            unexpected: "path/to/folder/Unexpected/imageName.png")
+
+        do {
+            let actualPaths = try suitcase.getImagePaths(withLabel: "imageName",
+                                                         imageSize: CGSize(width: 100, height: 200))
+            XCTAssert(actualPaths == expectedPaths, "Actual=\(actualPaths), expected=\(expectedPaths)")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     static var allTests = [
         ("testNameBySizeWithoutLabel", testNameBySizeWithoutLabel),
-        ("testNameByDeviceNameWithLabel", testNameByDeviceNameWithLabel)
+        ("testNameByDeviceNameWithLabel", testNameByDeviceNameWithLabel),
+        ("testManualName", testManualName)
     ]
 }

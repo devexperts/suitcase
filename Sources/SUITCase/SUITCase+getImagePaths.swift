@@ -18,6 +18,8 @@ extension SUITCase {
         case deviceModelName
         /// Uses screenshot size (e.g. "375x667") as part of the reference image name.
         case imageSize
+        /// Only uses a test name or a custom label (if provided) as part of the reference image name.
+        case manual
     }
 
     // swiftlint:disable large_tuple
@@ -33,17 +35,23 @@ extension SUITCase {
             testName += "/" + customLabel
         }
         let fileName: String
+        let filePath: String
         switch screenshotComparisonNamingStrategy {
         case .imageSize:
             fileName = "\(deviceLanguageCode)_\(Int(imageSize.width))x\(Int(imageSize.height)).png"
+            filePath = [testClassName, testName, fileName].joined(separator: "/")
         case .deviceModelName:
             fileName = "\(deviceLanguageCode)_\(deviceModelName).png"
+            filePath = [testClassName, testName, fileName].joined(separator: "/")
+        case .manual:
+            fileName = "\(customLabel ?? testName).png"
+            filePath = fileName
         }
 
         var imagePaths: [String] = []
         for subfolder in ["Reference", "Suggested", "Unexpected"] {
-            let filePath = [imagesFolder, subfolder, testClassName, testName, fileName].joined(separator: "/")
-            imagePaths.append(filePath)
+            let fullPath = [imagesFolder, subfolder, filePath].joined(separator: "/")
+            imagePaths.append(fullPath)
         }
 
         return (imagePaths[0], imagePaths[1], imagePaths[2])

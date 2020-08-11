@@ -55,7 +55,8 @@ class AppearanceTests: SUITCase {
 * The recording is disabled by default. 
 If the reference images are missing, SUITCase will save **the suggested screenshots** into the separate folder.
 If the collected screenshots are **unexpected**, SUITCase will save them into another separate folder as well. 
-* There are **two screenshots naming strategies** – by the device name and by the screenshot size (default). Change strategy by setting the `screenshotComparisonNamingStrategy` variable. 
+* There are **three screenshots naming strategies** – by the device name, by the screenshot size (default), and manual. 
+Change strategy by setting the `screenshotComparisonNamingStrategy` variable. 
 * You can also provide **the custom labels** to the screenshots if you want to make multiple assertions in a single test. Just set the `withLabel` argument. 
 ```swift
 screenshotComparisonNamingStrategy = .imageSize
@@ -67,6 +68,11 @@ screenshotComparisonNamingStrategy = .deviceModelName
 XCUIDevice.shared.orientation = .landscapeLeft
 verifyScreenshot(withLabel: "Landscape")
 // Saves /Images/Reference/AppearanceTests/testMainScreen/Landscape/en_iPhone 11.png
+
+screenshotComparisonNamingStrategy = .manual
+XCUIDevice.shared.orientation = .landscapeRight
+verifyScreenshot(withLabel: "landscapeRight")
+// Saves /Images/Reference/landscapeRight.png
 ```
 
 
