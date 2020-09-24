@@ -59,7 +59,8 @@ extension UIDevice {
             case "iPad8,12":                                return "iPad Pro (12.9-inch) (4th generation)"
             case "iPad11,1", "iPad11,2":                    return "iPad mini (5th generation)"
             case "iPad11,3", "iPad11,4", "iPad11,5":        return "iPad Air (3rd generation)"
-
+            case "iPad11,7":                                return "iPad (8th generation)"
+            case "iPad13,2":                                return "iPad Air (4th generation)"
             default:                                        return identifier
             }
         }
