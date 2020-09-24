@@ -1,6 +1,6 @@
 # SUITCase (ScreenshotUITestCase)
 ---
-SUITCase can verify screenshots in five different ways while testing the User Interface of iOS and iPadOS apps in Simulator. 
+SUITCase can verify screenshots in five different ways while testing the User Interface of iOS, iPadOS, and tvOS apps in Simulator. 
 It has been designed to be used with XCTest and written in Swift.
 
 

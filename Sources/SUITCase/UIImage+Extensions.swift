@@ -9,6 +9,7 @@
 import XCTest
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 extension UIImage {
     func writePNG(filePath: String) throws {
         try XCTContext.runActivity(named: "Save " + filePath) { _ in

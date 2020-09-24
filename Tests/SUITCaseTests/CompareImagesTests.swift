@@ -10,6 +10,7 @@ import XCTest
 @testable import SUITCase
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 class CompareImagesTests: XCTestCase {
     func assertComparison(method: SUITCaseMethod,
                           _ image1: RGBAImage,
@@ -20,7 +21,7 @@ class CompareImagesTests: XCTestCase {
         do {
             let actualDifference = try method.compareImages(actual: image1.uiImage,
                                                             reference: image2.uiImage)
-            
+
             XCTAssertTrue(actualDifference.image == expectedDifference.image, file: file, line: line)
             XCTAssertEqual(actualDifference.value,
                            expectedDifference.value,

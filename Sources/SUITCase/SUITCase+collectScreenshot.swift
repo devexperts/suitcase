@@ -9,6 +9,7 @@
 import XCTest
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 extension SUITCase {
     func collectScreenshot(ofElement element: XCUIElement? = nil,
                            withoutElement ignoredElement: XCUIElement? = nil,
@@ -56,6 +57,7 @@ extension SUITCase {
 }
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 extension XCUIElement {
     var isFullyOnScreen: Bool {
         let screenFrame = CGRect(origin: CGPoint.zero, size: XCUIScreen.main.screenshot().image.size)

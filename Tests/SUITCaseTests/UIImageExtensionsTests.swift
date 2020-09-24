@@ -10,6 +10,7 @@ import XCTest
 @testable import SUITCase
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 class UIImageExtensionsTests: XCTestCase {
     let testImage = RGBAImage(pixels: [.black, .green, .clear, .brown,
                                        .green, .white, .white, .clear,

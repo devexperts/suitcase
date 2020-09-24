@@ -10,6 +10,7 @@ import XCTest
 @testable import SUITCase
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 class RGBAPixelTests: XCTestCase {
     func assertPixel(_ pixel: RGBAPixel,
                      _ red: UInt8,

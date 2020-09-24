@@ -61,6 +61,9 @@ extension UIDevice {
             case "iPad11,3", "iPad11,4", "iPad11,5":        return "iPad Air (3rd generation)"
             case "iPad11,7":                                return "iPad (8th generation)"
             case "iPad13,2":                                return "iPad Air (4th generation)"
+
+            case "AppleTV5,3":                              return "Apple TV HD"
+            case "AppleTV6,2":                              return "Apple TV 4K"
             default:                                        return identifier
             }
         }

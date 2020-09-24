@@ -9,6 +9,7 @@
 import XCTest
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 extension SUITCase {
     enum VerifyScreenshotError: LocalizedError {
         case notSimulator

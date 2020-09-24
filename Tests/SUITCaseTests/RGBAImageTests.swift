@@ -10,6 +10,7 @@ import XCTest
 @testable import SUITCase
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 class RGBAImageTests: XCTestCase {
     func testPixelInitialisation() {
         let orangePixel = RGBAPixel.orange

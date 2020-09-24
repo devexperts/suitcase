@@ -9,6 +9,7 @@
 import XCTest
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 public protocol SUITCaseMethod {
     // Resizes the image, dismisses its orientation
     func prepareScreenshot(_ image: UIImage) -> UIImage
@@ -17,6 +18,7 @@ public protocol SUITCaseMethod {
 }
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 /// Downscales screenshots and allows configurable tolerance while comparing pixels.
 public class SUITCaseMethodWithTolerance: SUITCaseMethod {
     var tolerance: Double
@@ -79,6 +81,7 @@ public class SUITCaseMethodWithTolerance: SUITCaseMethod {
 }
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 /// The most accurate method, which compares original screenshots pixel by pixel.
 public class SUITCaseMethodStrict: SUITCaseMethodWithTolerance {
     public override func prepareScreenshot(_ image: UIImage) -> UIImage {
@@ -93,6 +96,7 @@ public class SUITCaseMethodStrict: SUITCaseMethodWithTolerance {
 }
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 /// Downscales screenshots, removes color saturation, and allows configurable tolerance while comparing pixels.
 public class SUITCaseMethodGreyscale: SUITCaseMethodWithTolerance {
     override func equalityCondition(_ pixel1: RGBAPixel, _ pixel2: RGBAPixel) -> Bool {
@@ -105,6 +109,7 @@ public class SUITCaseMethodGreyscale: SUITCaseMethodWithTolerance {
 }
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 /// Extremely dowscales screenshots, and allows configurable tolerance while comparing pixels.
 public class SUITCaseMethodDNA: SUITCaseMethodWithTolerance {
     var scaleFactor: CGFloat
@@ -124,6 +129,7 @@ public class SUITCaseMethodDNA: SUITCaseMethodWithTolerance {
 }
 
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 /// Compares average colors of screenshots.
 public class SUITCaseMethodAverageColor: SUITCaseMethod {
     public func prepareScreenshot(_ image: UIImage) -> UIImage {

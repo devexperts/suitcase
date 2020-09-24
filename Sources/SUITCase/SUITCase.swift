@@ -10,6 +10,7 @@ import XCTest
 
 /// SUITCase inherits from XCTestCase and allows comparing screenshots while testing UI.
 @available(iOS 12.0, *)
+@available(tvOS 10.0, *)
 open class SUITCase: XCTestCase {
     private lazy var testNameComponents = name
         .trimmingCharacters(in: .punctuationCharacters)
