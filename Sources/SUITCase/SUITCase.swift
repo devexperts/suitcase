@@ -18,7 +18,7 @@ open class SUITCase: XCTestCase {
     lazy var testClassName = testNameComponents.first
     lazy var testName = testNameComponents.last
 
-    var deviceModelName = UIDevice.modelName
+    var deviceModelName = UIDevice.modelName.replacingOccurrences(of: " ", with: "_")
     var deviceLanguageCode = Locale(identifier: Locale.preferredLanguages.first!).languageCode
 
     /// Enables Record Mode, which saves reference images.

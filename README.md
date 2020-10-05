@@ -67,7 +67,7 @@ verifyScreenshot(withLabel: "Portrait")
 screenshotComparisonNamingStrategy = .deviceModelName
 XCUIDevice.shared.orientation = .landscapeLeft
 verifyScreenshot(withLabel: "Landscape")
-// Saves /Images/Reference/AppearanceTests/testMainScreen/Landscape/en_iPhone 11.png
+// Saves /Images/Reference/AppearanceTests/testMainScreen/Landscape/en_iPhone_11.png
 
 screenshotComparisonNamingStrategy = .manual
 XCUIDevice.shared.orientation = .landscapeRight
