@@ -132,3 +132,5 @@ Compares the average colors of screenshots.
 
 ## License 
 SUITCase is the open-source software under [the MPL 2.0 license.](LICENSE)
+
+Test
