@@ -86,7 +86,7 @@ extension UIDevice {
         }
     }()
 
-    #if (arch(i386) || arch(x86_64))
+    #if targetEnvironment(simulator)
     static let isSimulator = true
     #else
     static let isSimulator = false
