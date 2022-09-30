@@ -22,7 +22,8 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "SUITCase"),
+            name: "SUITCase",
+            dependencies: ["DeviceKit"]),
         .testTarget(
             name: "SUITCaseTests",
             dependencies: ["SUITCase"])
