@@ -17,6 +17,9 @@ let package = Package(
             name: "SUITCase",
             targets: ["SUITCase"])
     ],
+    dependencies: [
+        .package(url: "https://github.com/devicekit/DeviceKit.git", from: "4.0.0"),
+    ],
     targets: [
         .target(
             name: "SUITCase"),
