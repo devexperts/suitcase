@@ -9,9 +9,18 @@
 import XCTest
 import DeviceKit
 
-extension UIDevice {
+public extension UIDevice {
     
-    static let modelName = DeviceKit.Device.current.description
+    static var modelName: String {
+        var result = DeviceKit.Device.current.safeDescription
+        
+        if isSimulator {
+            result = result.replacingOccurrences(of: "Simulator (", with: "")
+            result.removeLast() // closing brace
+        }
+        
+        return result
+    }
     
     static let isSimulator = DeviceKit.Device.current.isSimulator
     
