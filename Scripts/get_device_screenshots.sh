@@ -35,6 +35,7 @@ echo "-- Images destination path $TEST_IMAGES_DESTINATION_PATH" >> "$LOG_FILE_PA
 # mount app container
 
 echo "(Re)mounting '$TESTS_TARGET_BUNDLE_ID'" >> "$LOG_FILE_PATH"
+# remount container to avoid copying error
 umount -v "$MOUNT_DIR" >> "$LOG_FILE_PATH" 2>&1
 ifuse --debug --container $TESTS_TARGET_BUNDLE_ID "$MOUNT_DIR" >> "$LOG_FILE_PATH" 2>&1
 
