@@ -13,11 +13,8 @@
 # TESTS_TARGET_BUNDLE_ID="com.suitcase.SUITCaseExampleAppUITests" 
 # "$SCRIPT_PATH" "$TESTS_TARGET_BUNDLE_ID" "$TEST_IMAGES_SOURCE_PATH" "$TEST_IMAGES_DESTINATION_PATH"
 
-# cleanup
 
-LOG_FILE_PATH="/Users/user/Desktop/POST_ACTIONS.txt"
-
-rm "$LOG_FILE_PATH"
+LOG_FILE_PATH="$4"
 
 MOUNT_DIR="$HOME/fuse_mount_point"
 echo "Mount point $MOUNT_DIR" >> "$LOG_FILE_PATH"
