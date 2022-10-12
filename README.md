@@ -130,5 +130,47 @@ Compares the average colors of screenshots.
 * You can also verify the average color without the reference screenshot by using  `averageColorIs(_ uiColor: UIColor, tolerance: Double = 0.1)` \
 `XCTAssert(app.buttons["Red Button"].averageColorIs(.red))`
 
+## Experimental support for testing on real devices using `ifuse` library
+Currently SUITCase is intended to be used mainly with iOS Simulator, because the latter allows seamless access to macOS filesystem (test screenshots can be saved to your Mac directly). This is not as easy when speaking about testing on real devices, because tests are being run on device filesystem which has no direct access to macOS filesystem.
+
+However we can opt-in saving all screenshots during tests on device, mount xctrunner application container in macOS and this way copy screenshots from the testable device to Mac. This needs additional setup as follows
+
+### Setup
+
+1. Install [ifuse](https://github.com/libimobiledevice/ifuse) using Homebrew (based on [this](https://habr.com/ru/post/459888/) article)
+* Install `osxfuse`
+```
+brew install osxfuse
+```
+* Install dependencies
+```
+brew uninstall --ignore-dependencies libimobiledevice
+brew uninstall --ignore-dependencies usbmuxd
+#If you never installed libimobiledevice and usbmuxd before
+#skip above commands
+brew install --HEAD usbmuxd
+brew unlink usbmuxd
+brew link usbmuxd
+brew install --HEAD libimobiledevice
+```
+**Important**: If you've already installed stable `libimobiledevice` and `usbmuxd` versions remove them and install `dev` versions with `--HEAD` instead to avoid connection issues with iOS 12
+* Install `ifuse`
+```
+brew install ifuse
+```
+
+2. Add the following script as Post-action to your Target's scheme in Test section, set needed values
+```
+SCRIPT_PATH="$PROJECT_DIR/get_screenshots_ifuse.sh"
+# set path where to save test images retrieved from device
+TEST_IMAGES_DESTINATION_PATH="$PROJECT_DIR/TestImages"
+# set test images relative path inside application container without leading slash
+# for instance FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("TestImages").path
+TEST_IMAGES_SOURCE_PATH="Documents/TestImages"
+# set tests target bundle id. This will be a runner app where images will be saved
+TESTS_TARGET_BUNDLE_ID="com.suitcase.SUITCaseExampleAppUITests" 
+"$SCRIPT_PATH" "$TESTS_TARGET_BUNDLE_ID" "$TEST_IMAGES_SOURCE_PATH" "$TEST_IMAGES_DESTINATION_PATH"
+```
+
 ## License 
 SUITCase is the open-source software under [the MPL 2.0 license.](LICENSE)
