@@ -9,7 +9,7 @@ rm "$LOG_FILE_PATH"
 SWIFT_PACKAGES_PATH="${BUILD_DIR%Build/*}SourcePackages/checkouts"
 SCRIPT_PATH="$SWIFT_PACKAGES_PATH/suitcase/Scripts/get_device_screenshots.sh"
 # local path - set manually if you add SUITCase as a local package
-LOCAL_SCRIPT_PATH="/Users/user/Documents/xcode/OpenHack/suitcase/Scripts/get_device_screenshots.sh"
+LOCAL_SCRIPT_PATH=""
 
 if test -f "$SCRIPT_PATH"; then
     echo "Script found at '$SCRIPT_PATH'" >> "$LOG_FILE_PATH"

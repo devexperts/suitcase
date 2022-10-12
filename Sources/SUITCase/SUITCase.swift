@@ -27,4 +27,6 @@ open class SUITCase: XCTestCase {
     public var screenshotComparisonGlobalThreshold = 0.01
     /// Changes current reference images naming strategy.
     public var screenshotComparisonNamingStrategy = ScreenshotComparisonNamingStrategies.imageSize
+    /// Enables testing on real devices, is ignored when run on Simulator.
+    public var deviceTestingEnabled = false
 }

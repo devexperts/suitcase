@@ -131,7 +131,7 @@ Compares the average colors of screenshots.
 `XCTAssert(app.buttons["Red Button"].averageColorIs(.red))`
 
 ## Experimental support for testing on real devices using `ifuse` library
-Currently SUITCase is intended to be used mainly with iOS Simulator, because the latter allows seamless access to macOS filesystem (test screenshots can be saved to your Mac directly). This is not as easy when speaking about testing on real devices, because tests are being run on device filesystem which has no direct access to macOS filesystem.
+Currently SUITCase is intended to be used mainly with iOS Simulator, because the latter allows seamless access to macOS filesystem (test screenshots can be saved directly to your Mac). This is not as easy when speaking about testing on real devices, because tests are being run on device filesystem which has no direct access to macOS filesystem.
 
 However we can opt-in saving all screenshots during tests on device, mount xctrunner application container in macOS and this way copy screenshots from the testable device to Mac. This needs additional setup as follows
 
@@ -159,17 +159,13 @@ brew install --HEAD libimobiledevice
 brew install ifuse
 ```
 
-2. Add the following script as Post-action to your Target's scheme in Test section, set needed values
+2. Add [this script](Docs/run_this_from_post_action.md) as Post-action to your Target's scheme in Test section and configure it properly
+
+3. Make sure you selected a real device for testing and use the following code snippet to enable the feature 
 ```
-SCRIPT_PATH="$PROJECT_DIR/get_screenshots_ifuse.sh"
-# set path where to save test images retrieved from device
-TEST_IMAGES_DESTINATION_PATH="$PROJECT_DIR/TestImages"
-# set test images relative path inside application container without leading slash
-# for instance FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("TestImages").path
-TEST_IMAGES_SOURCE_PATH="Documents/TestImages"
-# set tests target bundle id. This will be a runner app where images will be saved
-TESTS_TARGET_BUNDLE_ID="com.suitcase.SUITCaseExampleAppUITests" 
-"$SCRIPT_PATH" "$TESTS_TARGET_BUNDLE_ID" "$TEST_IMAGES_SOURCE_PATH" "$TEST_IMAGES_DESTINATION_PATH"
+let imagesFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("TestImages").path
+SUITCase.screenshotComparisonImagesFolder = imagesFolder
+deviceTestingEnabled = true
 ```
 
 ## License 

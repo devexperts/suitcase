@@ -101,7 +101,7 @@ extension SUITCase {
                                   withThreshold customThreshold: Double? = nil,
                                   withMethod method: SUITCaseMethod = SUITCaseMethodWithTolerance(),
                                   withLabel label: String? = nil) throws {
-        guard UIDevice.isSimulator else {
+        if !UIDevice.isSimulator && !deviceTestingEnabled {
             throw VerifyScreenshotError.notSimulator
         }
 
