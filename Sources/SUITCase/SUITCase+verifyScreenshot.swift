@@ -101,10 +101,11 @@ extension SUITCase {
                                   withThreshold customThreshold: Double? = nil,
                                   withMethod method: SUITCaseMethod = SUITCaseMethodWithTolerance(),
                                   withLabel label: String? = nil) throws {
-        if !UIDevice.isSimulator && !deviceTestingEnabled {
+        
+        guard UIDevice.isSimulator || deviceTestingEnabled else {
             throw VerifyScreenshotError.notSimulator
         }
-
+        
         let actualImage = try collectScreenshot(ofElement: element,
                                                 withoutElement: ignoredElement,
                                                 withoutQuery: ignoredQuery,
