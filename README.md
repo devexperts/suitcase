@@ -131,7 +131,7 @@ Compares the average colors of screenshots.
 `XCTAssert(app.buttons["Red Button"].averageColorIs(.red))`
 
 ## Experimental support for testing on real devices using `ifuse` library
-Currently SUITCase is intended to be used mainly with iOS Simulator, because the latter allows seamless access to macOS filesystem (test screenshots can be saved directly to your Mac). This is not as easy when speaking about testing on real devices, because tests are being run on device filesystem which has no direct access to macOS filesystem.
+Currently SUITCase is intended to be used mainly with iOS Simulator, because the latter allows seamless access to macOS filesystem (test screenshots can be saved directly to your Mac). This is not as on real devices, because tests are being run on device filesystem which has no direct access to macOS filesystem.
 
 However we can opt-in saving all screenshots during tests on device, mount xctrunner application container in macOS and this way copy screenshots from the testable device to Mac. This needs additional setup as follows
 
