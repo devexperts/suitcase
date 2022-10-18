@@ -137,7 +137,7 @@ However we can opt-in saving all screenshots during tests on device, mount xctru
 
 ### Setup
 
-1. Install [ifuse](https://github.com/libimobiledevice/ifuse) using Homebrew (based on [this](https://habr.com/ru/post/459888/) article)
+1. Install [ifuse](https://github.com/libimobiledevice/ifuse) using Homebrew (based on [this article](https://habr.com/ru/post/459888/))
 * Install `osxfuse`
 ```
 brew install osxfuse
