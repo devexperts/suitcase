@@ -1,22 +1,25 @@
-# Add the following script as Post-action to your Target's scheme in Test section, set needed values:
+## Add the following script as Post-action to your Target's scheme in Test section
 
 ```sh
-# set log file path where get_device_screenshots.sh script actions will be saved for debug purposes
-LOG_FILE_PATH="$PROJECT_DIR/TestPostActions.log"
+# Log file path where script actions will be saved for debug purposes,
+# should be added in test targets' Build Settings > User-Defined
+if [[ ! -z "$LOG_FILE_PATH" ]]; then
+    LOG_FILE_PATH="$PROJECT_DIR/TestPostActions.log"
+fi
+
 rm "$LOG_FILE_PATH"
 
 # remote path - this path is valid if you install SUITCase as a remote package
 SWIFT_PACKAGES_PATH="${BUILD_DIR%Build/*}SourcePackages/checkouts"
 SCRIPT_PATH="$SWIFT_PACKAGES_PATH/suitcase/Scripts/get_device_screenshots.sh"
-# local path - set manually if you add SUITCase as a local package
-LOCAL_SCRIPT_PATH=""
 
 if test -f "$SCRIPT_PATH"; then
     echo "Script found at '$SCRIPT_PATH'" >> "$LOG_FILE_PATH"
 else 
     echo "Script not found at '$SCRIPT_PATH'" >> "$LOG_FILE_PATH"
     
-    # try local path if it is set
+    # Try local path if it is set, can be used if you install SUITCase as a local package
+    # should be added in test targets' Build Settings > User-Defined as absolute path
     if [[ -z $LOCAL_SCRIPT_PATH ]]; then
         echo "Local path not set too, exiting" >> "$LOG_FILE_PATH"
         exit
@@ -32,16 +35,25 @@ else
     fi
 fi
 
-# set path where to save test images retrieved from device
-TEST_IMAGES_DESTINATION_PATH="$PROJECT_DIR/TestImages"
+# Path where to save test images retrieved from device,
+# should be added in test targets' Build Settings > User-Defined
+if [[ -z "$IMAGES_DIR" ]]; then
+    echo "IMAGES_DIR environment variable not set, exiting" >> "$LOG_FILE_PATH"
+    exit
+fi
 
-# set test images relative path inside application container without leading slash
+# Images relative path inside application container without leading slash,
+# should be added in test targets' Build Settings > User-Defined
 # for instance FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("TestImages").path
-TEST_IMAGES_SOURCE_PATH="Documents/TestImages"
+if [[ -z "$IMAGES_CONTAINER_PATH" ]]; then
+    echo "IMAGES_CONTAINER_PATH environment variable not set, exiting" >> "$LOG_FILE_PATH"
+    exit
+fi
 
-# set tests target bundle id. This will be a runner app where images will be saved
-TESTS_TARGET_BUNDLE_ID="com.suitcase.SUITCaseExampleAppUITests" 
+# Tests target bundle id. This will be a runner app where images will be saved
+TESTS_TARGET_BUNDLE_ID="$PRODUCT_BUNDLE_IDENTIFIER"
 
 # run configured script
-"$SCRIPT_PATH" "$TESTS_TARGET_BUNDLE_ID" "$TEST_IMAGES_SOURCE_PATH" "$TEST_IMAGES_DESTINATION_PATH" "$LOG_FILE_PATH"
+"$SCRIPT_PATH" "$TESTS_TARGET_BUNDLE_ID" "$IMAGES_CONTAINER_PATH" "$IMAGES_DIR" "$LOG_FILE_PATH"
+
 ```
