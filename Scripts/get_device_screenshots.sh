@@ -31,10 +31,13 @@ umount -f -v "$MOUNT_DIR" >> "$LOG_FILE_PATH" 2>&1
 # mount container
 ifuse --debug --container $TESTS_TARGET_BUNDLE_ID "$MOUNT_DIR" >> "$LOG_FILE_PATH" 2>&1
 
-# copy images
+# sync images
 
-echo "Copying images from $TEST_IMAGES_SOURCE_PATH to $TEST_IMAGES_DESTINATION_PATH"
-cp -r "$TEST_IMAGES_SOURCE_PATH" "$TEST_IMAGES_DESTINATION_PATH" >> "$LOG_FILE_PATH" 2>&1
+echo "Syncing images between $TEST_IMAGES_SOURCE_PATH and $TEST_IMAGES_DESTINATION_PATH" >> "$LOG_FILE_PATH"
+echo "-- source -> target" >> "$LOG_FILE_PATH"
+rsync -rtuv "$TEST_IMAGES_SOURCE_PATH/" "$TEST_IMAGES_DESTINATION_PATH" >> "$LOG_FILE_PATH" 2>&1
+echo "-- target -> source" >> "$LOG_FILE_PATH"
+rsync -rtuv "$TEST_IMAGES_DESTINATION_PATH/" "$TEST_IMAGES_SOURCE_PATH" >> "$LOG_FILE_PATH" 2>&1
 
 
 
