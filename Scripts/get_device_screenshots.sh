@@ -1,18 +1,8 @@
 #!/bin/bash
 
 #
-# Add the following script as Post-action to your Target's scheme in Test section, set needed values:
+# See Docs/run_this_from_post_action.md for configuration script
 #
-# SCRIPT_PATH="$PROJECT_DIR/get_device_screenshots.sh"
-# # set path where to save test images retrieved from device
-# TEST_IMAGES_DESTINATION_PATH="$PROJECT_DIR/TestImages" 
-# # set test images relative path inside application container without leading slash
-# # for instance FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("TestImages").path
-# TEST_IMAGES_SOURCE_PATH="Documents/TestImages"
-# # set tests target bundle id. This will be a runner app where images will be saved
-# TESTS_TARGET_BUNDLE_ID="com.suitcase.SUITCaseExampleAppUITests" 
-# "$SCRIPT_PATH" "$TESTS_TARGET_BUNDLE_ID" "$TEST_IMAGES_SOURCE_PATH" "$TEST_IMAGES_DESTINATION_PATH"
-
 
 LOG_FILE_PATH="$4"
 
