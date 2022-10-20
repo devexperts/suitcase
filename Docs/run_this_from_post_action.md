@@ -9,6 +9,11 @@ fi
 
 rm "$LOG_FILE_PATH"
 
+if [[ $PLATFORM_NAME != "iphoneos" ]]; then
+    echo "Not running on iPhone, exiting" >> "$LOG_FILE_PATH"
+    exit
+fi
+
 # remote path - this path is valid if you install SUITCase as a remote package
 SWIFT_PACKAGES_PATH="${BUILD_DIR%Build/*}SourcePackages/checkouts"
 SCRIPT_PATH="$SWIFT_PACKAGES_PATH/suitcase/Scripts/get_device_screenshots.sh"
