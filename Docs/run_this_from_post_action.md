@@ -3,7 +3,7 @@
 ```sh
 # Log file path where script actions should be written for debug purposes.
 # Add as User-Defined Setting in Build Settings.
-if [[ ! -z "$SUITCASE_LOG_FILE_PATH" ]]; then
+if [[ -z "$SUITCASE_LOG_FILE_PATH" ]]; then
     SUITCASE_LOG_FILE_PATH="/dev/null 2>&1"
 fi
 
