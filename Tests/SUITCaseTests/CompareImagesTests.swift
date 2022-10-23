@@ -5,7 +5,7 @@
 
  See https://code.devexperts.com for more open source projects
 */
-
+import UIKit
 import XCTest
 @testable import SUITCase
 
@@ -76,15 +76,15 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testStrictComparison() {
-        assertComparison(method: SUITCaseMethodStrict(),
-                         rgbaImage,
-                         lighterImage,
-                         expectedDifference: (RGBAImage(pixels: [.black, .black, .black, .black,
-                                                                 .black, .black, .black, .white,
-                                                                 .black, .black, .black, .clear],
-                                                        width: 4,
-                                                        height: 3),
-                                              10 / 11))
+        let uiImageReference = UIImage(named: "shortcuts", in: Bundle.main, compatibleWith: nil)!
+             let uiImageChanged = UIImage(named: "newCommand", in: Bundle.main, compatibleWith: nil)!
+        let differenceImage = UIImage(named: "Difference image", in: .main, compatibleWith: nil)!
+        
+             assertComparison(method: SUITCaseMethodStrict(),
+                              RGBAImage(uiImage: uiImageReference),
+                              RGBAImage(uiImage: uiImageChanged), // !!!!
+                              expectedDifference: (RGBAImage(uiImage: differenceImage), // ????
+                                                   0.1919))
     }
 
     func testWithToleranceComparison() {
