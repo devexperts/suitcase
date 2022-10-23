@@ -16,16 +16,17 @@ if [[ $PLATFORM_NAME != "iphoneos" ]]; then
     exit
 fi
 
-# SUITCASE_DEVICE_TESTING_ENABLED 
-# Add as User-Defined Setting in Build Settings. Set to YES to explicitely enable operations with test images.
-# As this script is intended to be placed in Post-action phase it will be executed at every launch,
-# despite of test kind (even if not related to images), that is not always desirable.
-if [[ -z $SUITCASE_DEVICE_TESTING_ENABLED ]]; then
-    echo "Running on device, but SUITCASE_DEVICE_TESTING_ENABLED environment variable is not set, exiting" >> "$SUITCASE_LOG_FILE_PATH"
+# SUITCASE_ENABLE_DEVICE_IMAGES_SYNC 
+# Add as User-Defined Setting in Build Settings. Set to YES to explicitely enable sychronization of test images saved on device.
+# As this script is intended to be placed in Post-action phase it will be executed at every launch
+# despite of test kind (even if not related to images), that is not always desirable. 
+# Do not add this setting or set it to NO to disable images synchronization.
+if [[ -z $SUITCASE_ENABLE_DEVICE_IMAGES_SYNC ]]; then
+    echo "Running on device, but SUITCASE_ENABLE_DEVICE_IMAGES_SYNC environment variable is not set, exiting" >> "$SUITCASE_LOG_FILE_PATH"
     exit
 fi
 
-if [[ -z $SUITCASE_DEVICE_TESTING_ENABLED || $SUITCASE_DEVICE_TESTING_ENABLED = "NO" ]]; then
+if [[ -z $SUITCASE_ENABLE_DEVICE_IMAGES_SYNC || $SUITCASE_ENABLE_DEVICE_IMAGES_SYNC = "NO" ]]; then
     echo "Testing on device is explicitely disabled, exiting" >> "$SUITCASE_LOG_FILE_PATH"
     exit
 fi
