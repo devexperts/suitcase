@@ -87,8 +87,8 @@ extension UIDevice {
     }()
 
     #if targetEnvironment(simulator)
-    static let isSimulator = true
+    public static let isSimulator = true
     #else
-    static let isSimulator = false
+    public static let isSimulator = false
     #endif
 }

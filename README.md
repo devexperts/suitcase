@@ -130,5 +130,74 @@ Compares the average colors of screenshots.
 * You can also verify the average color without the reference screenshot by using  `averageColorIs(_ uiColor: UIColor, tolerance: Double = 0.1)` \
 `XCTAssert(app.buttons["Red Button"].averageColorIs(.red))`
 
+## Experimental support for testing on real devices using `ifuse` library
+Currently SUITCase is intended to be used mainly with iOS Simulator, because the latter allows seamless access to macOS filesystem (test screenshots can be saved directly to your Mac). This is not as on real devices, because tests are being run on device filesystem which has no direct access to macOS filesystem.
+
+However we can opt-in saving all screenshots during tests on device, mount xctrunner application container in macOS and this way copy screenshots from the testable device to Mac. Now, treating mounted container as an ordinary directory we can also copy images from Mac to device too (if needed). This enables two-way synchronization between device and Mac. This needs additional setup as follows
+
+### Setup
+
+1. Install [ifuse](https://github.com/libimobiledevice/ifuse) using Homebrew (based on [this article](https://habr.com/ru/post/459888/))
+* Install `osxfuse`
+```
+brew install osxfuse
+```
+* Install dependencies
+```
+brew uninstall --ignore-dependencies libimobiledevice
+brew uninstall --ignore-dependencies usbmuxd
+#If you never installed libimobiledevice and usbmuxd before
+#skip above commands
+brew install --HEAD usbmuxd
+brew unlink usbmuxd
+brew link usbmuxd
+brew install --HEAD libimobiledevice
+```
+**Important**: If you've already installed stable `libimobiledevice` and `usbmuxd` versions remove them and install `dev` versions with `--HEAD` instead to avoid connection issues with iOS 12
+* Install `ifuse`
+```
+brew install ifuse
+```
+
+2. Add [this script](Docs/run_this_from_post_action.md) as Post-action to your Target's scheme in Test section and configure it properly
+
+3. Make sure you selected a real device for testing and use the following code snippet to enable the feature
+```
+class AppearanceTests: SUITCase {
+    override func setUp() {
+        super.setUp()
+
+        deviceTestingEnabled = true
+        let imagesFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("Images").path
+        SUITCase.screenshotComparisonImagesFolder = imagesFolder
+
+        XCUIApplication().launch()
+    }
+}
+```
+
+4. Add the following User-Defined Settings in Build Settings of your UITests target. These settings are used in Post-action script.
+
+    **SUITCASE_DEVICE_IMAGES_DIR**
+
+    Images relative path inside application container on device without leading slash. 
+Make sure this relative path is the same as last path components retrieved from `FileManager`. For instance for `FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("Images").path` this would be `Documents/Images`
+
+    **SUITCASE_ENABLE_DEVICE_IMAGES_SYNC**
+
+    Set to `YES` to explicitely enable sychronization of test images saved on device. As this script is intended to be placed in Post-action phase it will be executed at every launch despite of test kind (even if not related to images), that is not always desirable. Do not add this setting or set it to NO to disable images synchronization.
+
+    **SUITCASE_IMAGES_DIR**
+
+    Path where to save test images retrieved from device. This setting is similar to the `IMAGES_DIR` environment variable added at [Installation](#installation) step and you may assign the same value to it, it's been introduced to follow the common `SUITCASE_` prefix naming pattern and to distinct use cases, because `IMAGES_DIR` when set in Test scheme cannot be accessed inside Post-action script while a User-Defined Settings in Build Settings can.
+
+    **SUITCASE_LOCAL_SCRIPT_PATH**
+
+    Optional setting used if you install SUITCase as a local package, because in this case we cannot grab script path from standard build variables like `BUILD_DIR`
+
+    **SUITCASE_LOG_FILE_PATH**
+
+    Optional log file path where script actions should be written for debug purposes.
+
 ## License 
 SUITCase is the open-source software under [the MPL 2.0 license.](LICENSE)
