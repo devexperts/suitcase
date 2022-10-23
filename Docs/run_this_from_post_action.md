@@ -4,7 +4,7 @@
 # Log file path where script actions will be saved for debug purposes,
 # should be added in test targets' Build Settings > User-Defined
 if [[ ! -z "$LOG_FILE_PATH" ]]; then
-    LOG_FILE_PATH="$PROJECT_DIR/TestPostActions.log"
+    LOG_FILE_PATH="/dev/null 2>&1"
 fi
 
 rm "$LOG_FILE_PATH"
@@ -60,5 +60,4 @@ TESTS_TARGET_BUNDLE_ID="$PRODUCT_BUNDLE_IDENTIFIER"
 
 # run configured script
 "$SCRIPT_PATH" "$TESTS_TARGET_BUNDLE_ID" "$IMAGES_CONTAINER_PATH" "$IMAGES_DIR" "$LOG_FILE_PATH"
-
 ```
