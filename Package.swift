@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 
 /*
  SUITCase
@@ -9,7 +9,7 @@
 */
 
 import PackageDescription
-// swift-tools-version:5.3
+
 let package = Package(
     name: "SUITCase",
     products: [
