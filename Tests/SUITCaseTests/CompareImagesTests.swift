@@ -76,9 +76,9 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testStrictComparison() {
-        let uiImageReference = UIImage(named: "shortcuts", in: Bundle.main, compatibleWith: nil)!
-             let uiImageChanged = UIImage(named: "newCommand", in: Bundle.main, compatibleWith: nil)!
-        let differenceImage = UIImage(named: "Difference image", in: .main, compatibleWith: nil)!
+        let uiImageReference = UIImage(named: "shortcuts", in: Bundle.module, compatibleWith: nil)!
+             let uiImageChanged = UIImage(named: "newCommand", in: Bundle.module, compatibleWith: nil)!
+        let differenceImage = UIImage(named: "Difference image", in: .module, compatibleWith: nil)!
         
              assertComparison(method: SUITCaseMethodStrict(),
                               RGBAImage(uiImage: uiImageReference),
