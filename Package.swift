@@ -20,7 +20,7 @@ let package = Package(
     targets: [
         .target(
             name: "SUITCase"),
-        .testTarget(
+        .target(
             name: "SUITCaseTests",
             dependencies: ["SUITCase"])
     ]
