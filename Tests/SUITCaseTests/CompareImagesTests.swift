@@ -76,15 +76,15 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testStrictComparison() {
-        let uiImageReference = UIImage(named: "shortcuts", in: Bundle.module, compatibleWith: nil)!
-             let uiImageChanged = UIImage(named: "newCommand", in: Bundle.module, compatibleWith: nil)!
+        let referenceImage = UIImage(named: "shortcuts", in: .module, compatibleWith: nil)!
+        let unexpectedImage = UIImage(named: "newCommand", in: .module, compatibleWith: nil)!
         let differenceImage = UIImage(named: "Difference image", in: .module, compatibleWith: nil)!
-        
-             assertComparison(method: SUITCaseMethodStrict(),
-                              RGBAImage(uiImage: uiImageReference),
-                              RGBAImage(uiImage: uiImageChanged), // !!!!
-                              expectedDifference: (RGBAImage(uiImage: differenceImage), // ????
-                                                   0.1919))
+
+        assertComparison(method: SUITCaseMethodStrict(),
+                         RGBAImage(uiImage: referenceImage),
+                         RGBAImage(uiImage: unexpectedImage),
+                         expectedDifference: (RGBAImage(uiImage: differenceImage),
+                                              0.191837))
     }
 
     func testWithToleranceComparison() {
