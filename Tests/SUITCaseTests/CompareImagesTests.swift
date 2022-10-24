@@ -88,25 +88,17 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testWithToleranceComparison() {
+        let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
+        let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
+        let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
+
         assertComparison(method: SUITCaseMethodWithTolerance(0.05),
-                         rgbaImage,
-                         lighterImage,
-                         expectedDifference: (RGBAImage(pixels: [.black, .black, .white, .white,
-                                                                 .black, .white, .white, .white,
-                                                                 .black, .black, .black, .clear],
-                                                        width: 4,
-                                                        height: 3),
-                                              6 / 11))
-        assertComparison(method: SUITCaseMethodWithTolerance(0.06),
-                         rgbaImage,
-                         lighterImage,
-                         expectedDifference: (RGBAImage(pixels: [.black, .white, .white, .white,
-                                                                 .white, .white, .white, .white,
-                                                                 .black, .black, .black, .clear],
-                                                        width: 4,
-                                                        height: 3),
-                                              4 / 11))
+                         RGBAImage(uiImage: referenceImage),
+                         RGBAImage(uiImage: unexpectedImage),
+                         expectedDifference: (RGBAImage(uiImage: differenceImage),
+                                              0.128449))
     }
+    
 
     let rgbwImage = RGBAImage(pixels: [.red, .green,
                                        .blue, .white],
@@ -119,66 +111,40 @@ class CompareImagesTests: XCTestCase {
                               height: 2)
 
     func testGreyscaleComparison() {
+        let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
+        let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
+        let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
+
         assertComparison(method: SUITCaseMethodGreyscale(tolerance: 0.1),
-                         rgbwImage,
-                         cmykImage,
-                         expectedDifference: (RGBAImage(pixels: [.white, .white,
-                                                                 .black, .white],
-                                                        width: 2,
-                                                        height: 2),
-                                              1 / 4))
-        assertComparison(method: SUITCaseMethodGreyscale(tolerance: 0.3),
-                         rgbwImage,
-                         cmykImage,
-                         expectedDifference: (RGBAImage(pixels: [.white, .white,
-                                                                 .white, .white],
-                                                        width: 2,
-                                                        height: 2),
-                                              0 / 4))
+                         RGBAImage(uiImage: referenceImage),
+                         RGBAImage(uiImage: unexpectedImage),
+                         expectedDifference: (RGBAImage(uiImage: differenceImage),
+                                              0.067712))
     }
 
     func testAverageColorComparison() {
-        let width = 100
+        let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
+        let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
+        let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
 
         assertComparison(method: SUITCaseMethodAverageColor(),
-                         rgbaImage,
-                         lighterImage,
-                         expectedDifference: (RGBAImage(pixels: Array(repeating: RGBAPixel.gray,
-                                                                      count: width * width)
-                                                                + Array(repeating: RGBAPixel(white: 138),
-                                                                        count: width * width),
-                                                        width: width,
-                                                        height: 2 * width),
-                                              0.039216))
-        assertComparison(method: SUITCaseMethodAverageColor(),
-                         rgbwImage,
-                         cmykImage,
-                         expectedDifference: (RGBAImage(pixels: Array(repeating: RGBAPixel.gray,
-                                                                      count: 2 * width * width),
-                                                        width: width,
-                                                        height: 2 * width),
-                                              0))
+                         RGBAImage(uiImage: referenceImage),
+                         RGBAImage(uiImage: unexpectedImage),
+                         expectedDifference: (RGBAImage(uiImage: differenceImage),
+                                              0.046391))
+
     }
 
     func testDnaComparison() {
+        let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
+        let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
+        let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
+
         assertComparison(method: SUITCaseMethodDNA(tolerance: 0.03),
-                         rgbaImage,
-                         lighterImage,
-                         expectedDifference: (RGBAImage(pixels: [.black, .black, .black, .white,
-                                                                 .black, .black, .white, .white,
-                                                                 .black, .black, .black, .clear],
-                                                        width: 4,
-                                                        height: 3),
-                                              8 / 11))
-        assertComparison(method: SUITCaseMethodDNA(tolerance: 0.02),
-                         rgbaImage,
-                         lighterImage,
-                         expectedDifference: (RGBAImage(pixels: [.black, .black, .black, .black,
-                                                                 .black, .black, .black, .white,
-                                                                 .black, .black, .black, .clear],
-                                                        width: 4,
-                                                        height: 3),
-                                              10 / 11))
+                         RGBAImage(uiImage: referenceImage),
+                         RGBAImage(uiImage: unexpectedImage),
+                         expectedDifference: (RGBAImage(uiImage: differenceImage),
+                                              0.128522))
     }
 
     func testThrowingErrors() {
