@@ -76,15 +76,15 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testStrictComparison() {
-        let referenceImage = UIImage(named: "shortcuts", in: .module, compatibleWith: nil)!
-        let unexpectedImage = UIImage(named: "newCommand", in: .module, compatibleWith: nil)!
-        let differenceImage = UIImage(named: "Difference image", in: .module, compatibleWith: nil)!
+        let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
+        let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
+        let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
 
         assertComparison(method: SUITCaseMethodStrict(),
                          RGBAImage(uiImage: referenceImage),
                          RGBAImage(uiImage: unexpectedImage),
                          expectedDifference: (RGBAImage(uiImage: differenceImage),
-                                              0.191837))
+                                              0.128664))
     }
 
     func testWithToleranceComparison() {
