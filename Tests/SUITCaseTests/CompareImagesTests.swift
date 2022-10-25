@@ -144,7 +144,7 @@ class CompareImagesTests: XCTestCase {
                          RGBAImage(uiImage: referenceImage),
                          RGBAImage(uiImage: unexpectedImage),
                          expectedDifference: (RGBAImage(uiImage: differenceImage),
-                                              0.128522))
+                                              0.067712))
     }
 
     func testThrowingErrors() {
