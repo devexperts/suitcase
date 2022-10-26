@@ -12,6 +12,13 @@ import XCTest
 @available(iOS 12.0, *)
 @available(tvOS 10.0, *)
 class CompareImagesTests: XCTestCase {
+   
+    
+  private let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
+  private let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
+ private  let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
+    
+    
     func assertComparison(method: SUITCaseMethod,
                           _ image1: RGBAImage,
                           _ image2: RGBAImage,
@@ -76,9 +83,7 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testStrictComparison() {
-        let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
-        let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
-        let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
+      
 
         assertComparison(method: SUITCaseMethodStrict(),
                          RGBAImage(uiImage: referenceImage),
@@ -88,10 +93,7 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testWithToleranceComparison() {
-        let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
-        let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
-        let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
-
+      
         assertComparison(method: SUITCaseMethodWithTolerance(0.05),
                          RGBAImage(uiImage: referenceImage),
                          RGBAImage(uiImage: unexpectedImage),
@@ -111,9 +113,7 @@ class CompareImagesTests: XCTestCase {
                               height: 2)
 
     func testGreyscaleComparison() {
-        let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
-        let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
-        let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
+       
 
         assertComparison(method: SUITCaseMethodGreyscale(tolerance: 0.1),
                          RGBAImage(uiImage: referenceImage),
@@ -123,9 +123,7 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testAverageColorComparison() {
-        let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
-        let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
-        let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
+       
 
         assertComparison(method: SUITCaseMethodAverageColor(),
                          RGBAImage(uiImage: referenceImage),
@@ -136,9 +134,7 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testDnaComparison() {
-        let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
-        let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
-        let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
+        
 
         assertComparison(method: SUITCaseMethodDNA(tolerance: 0.03),
                          RGBAImage(uiImage: referenceImage),
