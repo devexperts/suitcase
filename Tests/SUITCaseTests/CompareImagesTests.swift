@@ -100,7 +100,6 @@ class CompareImagesTests: XCTestCase {
                          expectedDifference: (RGBAImage(uiImage: differenceImage),
                                               0.128449))
     }
-    
 
     let rgbwImage = RGBAImage(pixels: [.red, .green,
                                        .blue, .white],
