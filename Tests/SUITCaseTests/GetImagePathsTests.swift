@@ -23,7 +23,8 @@ class GetImagePathsTests: XCTestCase {
         let expectedPaths = (
             reference: "path/to/folder/Reference/TestClassName/testName/en_100x200.png",
             suggested: "path/to/folder/Suggested/TestClassName/testName/en_100x200.png",
-            unexpected: "path/to/folder/Unexpected/TestClassName/testName/en_100x200.png")
+            unexpected: "path/to/folder/Unexpected/TestClassName/testName/en_100x200.png",
+            difference: "path/to/folder/Difference/TestClassName/testName/en_100x200.png")
         do {
             let actualPaths = try suitcase.getImagePaths(withLabel: nil,
                                                          imageSize: CGSize(width: 100, height: 200))
@@ -45,7 +46,8 @@ class GetImagePathsTests: XCTestCase {
         let expectedPaths = (
             reference: "path/to/folder/Reference/TestClassName/testName/Views/Collection View/ge_iPhone 9.png",
             suggested: "path/to/folder/Suggested/TestClassName/testName/Views/Collection View/ge_iPhone 9.png",
-            unexpected: "path/to/folder/Unexpected/TestClassName/testName/Views/Collection View/ge_iPhone 9.png")
+            unexpected: "path/to/folder/Unexpected/TestClassName/testName/Views/Collection View/ge_iPhone 9.png",
+            difference: "path/to/folder/Difference/TestClassName/testName/Views/Collection View/ge_iPhone 9.png")
 
         do {
             let actualPaths = try suitcase.getImagePaths(withLabel: "Views/Collection View",
@@ -64,7 +66,8 @@ class GetImagePathsTests: XCTestCase {
         let expectedPaths = (
             reference: "path/to/folder/Reference/imageName.png",
             suggested: "path/to/folder/Suggested/imageName.png",
-            unexpected: "path/to/folder/Unexpected/imageName.png")
+            unexpected: "path/to/folder/Unexpected/imageName.png",
+            difference: "path/to/folder/Difference/imageName.png")
 
         do {
             let actualPaths = try suitcase.getImagePaths(withLabel: "imageName",
