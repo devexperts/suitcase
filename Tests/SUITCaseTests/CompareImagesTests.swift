@@ -13,9 +13,9 @@ import XCTest
 @available(tvOS 10.0, *)
 class CompareImagesTests: XCTestCase {
 
-    private let referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
-    private let unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
-    private let differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
+    private var referenceImage = UIImage(named: "en_iPhone_X_reference_strict", in: .module, compatibleWith: nil)!
+    private var unexpectedImage = UIImage(named: "en_iPhone_X_unexpected_strict", in: .module, compatibleWith: nil)!
+    private var differenceImage = UIImage(named: "en_iPhone_X_difference_strict", in: .module, compatibleWith: nil)!
 
     func assertComparison(method: SUITCaseMethod,
                           _ image1: RGBAImage,
@@ -89,6 +89,10 @@ class CompareImagesTests: XCTestCase {
     }
 
     func testWithToleranceComparison() {
+        referenceImage = UIImage(named: "shortcuts_reference", in: .module, compatibleWith: nil)!
+        unexpectedImage = UIImage(named: "shortcuts_unexpected", in: .module, compatibleWith: nil)!
+        differenceImage = UIImage(named: "shortcuts_difference", in: .module, compatibleWith: nil)!
+        
         assertComparison(method: SUITCaseMethodWithTolerance(0.05),
                          RGBAImage(uiImage: referenceImage),
                          RGBAImage(uiImage: unexpectedImage),
@@ -107,27 +111,39 @@ class CompareImagesTests: XCTestCase {
                               height: 2)
 
     func testGreyscaleComparison() {
+        referenceImage = UIImage(named: "greyscale_reference", in: .module, compatibleWith: nil)!
+        unexpectedImage = UIImage(named: "greyscale_unexpected", in: .module, compatibleWith: nil)!
+        differenceImage = UIImage(named: "greyscale_difference", in: .module, compatibleWith: nil)!
+        
+        
         assertComparison(method: SUITCaseMethodGreyscale(tolerance: 0.1),
                          RGBAImage(uiImage: referenceImage),
                          RGBAImage(uiImage: unexpectedImage),
                          expectedDifference: (RGBAImage(uiImage: differenceImage),
-                                              0.067712))
+                                              0.128469))
     }
 
     func testAverageColorComparison() {
+        referenceImage = UIImage(named: "averageColor_reference", in: .module, compatibleWith: nil)!
+        unexpectedImage = UIImage(named: "averageColor_unexpected", in: .module, compatibleWith: nil)!
+        differenceImage = UIImage(named: "averageColor_difference", in: .module, compatibleWith: nil)!
         assertComparison(method: SUITCaseMethodAverageColor(),
                          RGBAImage(uiImage: referenceImage),
                          RGBAImage(uiImage: unexpectedImage),
                          expectedDifference: (RGBAImage(uiImage: differenceImage),
-                                              0.046391))
+                                              0.035448))
     }
 
     func testDnaComparison() {
+        referenceImage = UIImage(named: "dna_reference", in: .module, compatibleWith: nil)!
+        unexpectedImage = UIImage(named: "dna_unexpected", in: .module, compatibleWith: nil)!
+        differenceImage = UIImage(named: "dna_difference", in: .module, compatibleWith: nil)!
+        
         assertComparison(method: SUITCaseMethodDNA(tolerance: 0.03),
                          RGBAImage(uiImage: referenceImage),
                          RGBAImage(uiImage: unexpectedImage),
                          expectedDifference: (RGBAImage(uiImage: differenceImage),
-                                              0.067712))
+                                              0.189393))
     }
 
     func testThrowingErrors() {
