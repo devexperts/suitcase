@@ -27,4 +27,6 @@ open class SUITCase: XCTestCase {
     public var screenshotComparisonGlobalThreshold = 0.01
     /// Changes current reference images naming strategy.
     public var screenshotComparisonNamingStrategy = ScreenshotComparisonNamingStrategies.imageSize
+    /// Indicates weather difference images should be saved along with collected (unexpected) images
+    public var savesDifferenceImages = false
 }

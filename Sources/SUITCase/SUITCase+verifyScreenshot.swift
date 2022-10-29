@@ -141,9 +141,16 @@ extension SUITCase {
             addNote("Collected and reference screenshots are similar")
         } else {
             addImage(referenceImage, name: "Reference image")
-            addImage(difference.image.uiImage, name: "Difference image")
+            let differenceImage = difference.image.uiImage
+            addImage(differenceImage, name: "Difference image")
             if difference.value > threshold {
                 try actualImage.writePNG(filePath: filePaths.unexpected)
+
+                if savesDifferenceImages {
+                    try differenceImage.writePNG(filePath: filePaths.difference)
+                    addNote("Difference image saving is enabled. Saved difference image")
+                }
+
                 throw VerifyScreenshotError.noMatch
             }
         }

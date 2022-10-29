@@ -25,7 +25,7 @@ extension SUITCase {
 
     // swiftlint:disable large_tuple
     func getImagePaths(withLabel customLabel: String?,
-                       imageSize: CGSize) throws -> (reference: String, suggested: String, unexpected: String) {
+                       imageSize: CGSize) throws -> (reference: String, suggested: String, unexpected: String, difference: String) {
         guard let imagesFolder = SUITCase.screenshotComparisonImagesFolder,
             let testClassName = testClassName,
             var testName = testName,
@@ -50,11 +50,11 @@ extension SUITCase {
         }
 
         var imagePaths: [String] = []
-        for subfolder in ["Reference", "Suggested", "Unexpected"] {
+        for subfolder in ["Reference", "Suggested", "Unexpected", "Difference"] {
             let fullPath = [imagesFolder, subfolder, filePath].joined(separator: "/")
             imagePaths.append(fullPath)
         }
 
-        return (imagePaths[0], imagePaths[1], imagePaths[2])
+        return (imagePaths[0], imagePaths[1], imagePaths[2], imagePaths[3])
     }
 }
