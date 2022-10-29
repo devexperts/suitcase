@@ -24,7 +24,7 @@ class CompareImagesTests: XCTestCase {
             let unexpectedImage = UIImage(named: unexpectedImageName, in: .module, compatibleWith: nil)!
             let actualDifference = try method.compareImages(actual: referenceImage,
                                                             reference: unexpectedImage)
-            
+
             if let differenceImageName = expectedDifference.imageName,
                let expectedDifferenceImage = UIImage(named: differenceImageName, in: .module, compatibleWith: nil) {
                 // FIXME: implement correct differences comparison using real images
