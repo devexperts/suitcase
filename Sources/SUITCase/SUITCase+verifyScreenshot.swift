@@ -148,6 +148,7 @@ extension SUITCase {
 
                 if savesDifferenceImages {
                     try differenceImage.writePNG(filePath: filePaths.difference)
+                    addNote("Difference image saving is enabled. Saved difference image")
                 }
 
                 throw VerifyScreenshotError.noMatch
